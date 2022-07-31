@@ -29,7 +29,3 @@ const lightbox = new SimpleLightbox('.gallery a', {
     disableRightClick: true,
     overlayOpacity: 0.8,
 });
-// gallery.on('show.simplelightbox', function () {
-// do something…
-// });
-console.log(lightbox);
