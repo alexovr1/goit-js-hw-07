@@ -1,7 +1,6 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-
 // -----Create ref of elements-----
 const refs = {
     gallery: document.querySelector('.gallery'),
@@ -23,34 +22,39 @@ const galleryItemsRef = galleryItems.map(({ preview, original, description }) =>
 // -----Create dimanic DOM-elements in HTML-----
 refs.gallery.innerHTML = galleryItemsRef;
 
-// -----Add listener-----
+// -----Add click-listener-----
 refs.gallery.addEventListener('click', onClickSmallImg)
 
 function onClickSmallImg(e) {
+    console.log(e);
     if (e.target.nodeName !== "IMG") {
         return
+    }
+
+    function onClickEscape(e) {
+        console.log(e.code);
+        if (e.code === 'Escape') {
+            instance.close()
+        }
     }
 
     const srcLargeImgRef = e.srcElement.dataset.source;
 
     // -----Using the library for modal-window-----
-    const instance = basicLightbox.create(`
-    <img src="${srcLargeImgRef}" width="95%" height="auto">`
-        , {
+    const instance = basicLightbox.create(
+        `<img src="${srcLargeImgRef}" width="95%" height="auto">`,
+        {
             className: 'modal',
+
+            onShow: (instance) => {
+                document.addEventListener("keydown", onClickEscape),
+                    refs.body.classList.add('noScroll')
+            },
             onClose: (instance) => {
-                refs.body.classList.remove('noScroll')
+                document.removeEventListener("keydown", onClickEscape),
+                    refs.body.classList.remove('noScroll')
             }
         }
     )
-    const onClickEscape = (e) => {
-        if (e.code === 'Escape') {
-            instance.close(() => document.removeEventListener("keydown", onClickEscape)
-            )
-        }
-    }
-    instance.show(() => {
-        document.addEventListener("keydown", onClickEscape),
-            refs.body.classList.add('noScroll')
-    })
+    instance.show()
 }
