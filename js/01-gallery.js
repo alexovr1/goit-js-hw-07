@@ -26,13 +26,11 @@ refs.gallery.innerHTML = galleryItemsRef;
 refs.gallery.addEventListener('click', onClickSmallImg)
 
 function onClickSmallImg(e) {
-    console.log(e);
     if (e.target.nodeName !== "IMG") {
         return
     }
 
     function onClickEscape(e) {
-        console.log(e.code);
         if (e.code === 'Escape') {
             instance.close()
         }
