@@ -26,6 +26,7 @@ refs.gallery.innerHTML = galleryItemsRef;
 refs.gallery.addEventListener('click', onClickSmallImg)
 
 function onClickSmallImg(e) {
+    console.log(e.target);
     if (e.target.nodeName !== "IMG") {
         return
     }
@@ -54,5 +55,19 @@ function onClickSmallImg(e) {
             }
         }
     )
+
+    const onClickEscape = (e) => {
+        console.log(e.code);
+        if (e.code === 'Escape') {
+            instance.close(() => document.removeEventListener("keydown", onClickEscape)
+            )
+        }
+    }
+    instance.show(() => {
+        document.addEventListener("keydown", onClickEscape),
+            refs.body.classList.add('noScroll')
+    })
+
     instance.show()
+
 }
